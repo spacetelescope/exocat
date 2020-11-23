@@ -1,31 +1,730 @@
-{% extends "base.html" %}
-{% block content %}
-
-<div class="row">
-    <div class="span12">
-        <h3> Spatial Scan Monitor Summary </h3>
-        <p> Each truncated root will direct to the drift map and 2D light curve
-        results.</p>
-        <table id="myGoTable" class="sortable">
-            <tr class="header">
-                <th> Truncated Root </th>
-                <th> Proposal ID </th>
-                <th> Y Drift </th>
-                <th> X Drift </th>
-                <th> Median Absolute Deviation </th>
-                <th> Percent of Masked Pixels (for Optimal Spectral Extraction) </th>
-                <th> Percent of Masked Pixels (for Regular Spectral Extraction) </th>
-                <th> Scan Rate </th>
-                <th> Scan Type </th>
-                <th> Date </th>
-                <th> Julian Date </th>
-                <th> Target </th>
-            </tr>
-
-            {{ html_table_body|safe }} 
-        
-        </table>
-    </div>
-</div>
-
-{% endblock %}
+<style type="text/css">
+.tg  {border-collapse:collapse;border-color:#ccc;border-spacing:0;border-style:solid;border-width:1px;}
+.tg td{background-color:#fff;border-color:#ccc;border-style:solid;border-width:0px;color:#333;
+  font-family:Arial, sans-serif;font-size:14px;overflow:hidden;padding:10px 5px;word-break:normal;}
+.tg th{background-color:#f0f0f0;border-color:#ccc;border-style:solid;border-width:0px;color:#333;
+  font-family:Arial, sans-serif;font-size:14px;font-weight:normal;overflow:hidden;padding:10px 5px;word-break:normal;}
+.tg .tg-0pky{border-color:inherit;text-align:left;vertical-align:top}
+.tg .tg-y698{background-color:#efefef;border-color:inherit;text-align:left;vertical-align:top}
+@media screen and (max-width: 767px) {.tg {width: auto !important;}.tg col {width: auto !important;}.tg-wrap {overflow-x: auto;-webkit-overflow-scrolling: touch;}}</style>
+<div class="tg-wrap"><table class="tg">
+<thead>
+  <tr>
+    <th class="tg-0pky">Target</th>
+    <th class="tg-0pky">Program</th>
+    <th class="tg-0pky">Status</th>
+    <th class="tg-0pky">SpElement</th>
+    <th class="tg-0pky">Phase Start</th>
+    <th class="tg-0pky">Phase End</th>
+    <th class="tg-0pky">Norbits</th>
+    <th class="tg-0pky">Date</th>
+    <th class="tg-0pky">Scan Direction</th>
+    <th class="tg-0pky">Scan Rate</th>
+    <th class="tg-0pky">Alt Name</th>
+  </tr>
+</thead>
+<tbody>
+  <tr>
+    <td class="tg-y698">WASP-96</td>
+    <td class="tg-0pky">15469</td>
+    <td class="tg-0pky">failed</td>
+    <td class="tg-0pky">G102</td>
+    <td class="tg-0pky">0.937</td>
+    <td class="tg-0pky">0.94</td>
+    <td class="tg-0pky">5</td>
+    <td class="tg-0pky">1534111305990</td>
+    <td class="tg-0pky">Forward</td>
+    <td class="tg-0pky">0.013</td>
+    <td class="tg-0pky">2MASS-J00041112-4721382</td>
+    </tr>
+    <tr>
+    <td class="tg-y698">WASP-96</td>
+    <td class="tg-0pky">15469</td>
+    <td class="tg-0pky">implementation</td>
+    <td class="tg-0pky">G102</td>
+    <td class="tg-0pky">0.937</td>
+    <td class="tg-0pky">0.94</td>
+    <td class="tg-0pky">5</td>
+    <td class="tg-0pky">1534111305990</td>
+    <td class="tg-0pky">Forward</td>
+    <td class="tg-0pky">0.013</td>
+    <td class="tg-0pky">2MASS-J00041112-4721382</td>
+    </tr>
+    <tr>
+    <td class="tg-y698">WASP-96</td>
+    <td class="tg-0pky">15469</td>
+    <td class="tg-0pky">implementation</td>
+    <td class="tg-0pky">G141</td>
+    <td class="tg-0pky">0.937</td>
+    <td class="tg-0pky">0.94</td>
+    <td class="tg-0pky">5</td>
+    <td class="tg-0pky">1534111316369</td>
+    <td class="tg-0pky">Forward</td>
+    <td class="tg-0pky">0.022</td>
+    <td class="tg-0pky">2MASS-J00041112-4721382</td>
+    </tr>
+    <tr>
+    <td class="tg-y698">HAT-P-32</td>
+    <td class="tg-0pky">14260</td>
+    <td class="tg-0pky">completed</td>
+    <td class="tg-0pky">G141</td>
+    <td class="tg-0pky">0.9094</td>
+    <td class="tg-0pky">0.9218</td>
+    <td class="tg-0pky">5</td>
+    <td class="tg-0pky">1470321668758</td>
+    <td class="tg-0pky">Forward</td>
+    <td class="tg-0pky">0.05</td>
+    <td class="tg-0pky">HAT-P-32</td>
+    </tr>
+    <tr>
+    <td class="tg-y698">WASP-76</td>
+    <td class="tg-0pky">14260</td>
+    <td class="tg-0pky">completed</td>
+    <td class="tg-0pky">G141</td>
+    <td class="tg-0pky">0.8908</td>
+    <td class="tg-0pky">0.9113</td>
+    <td class="tg-0pky">5</td>
+    <td class="tg-0pky">1470321694411</td>
+    <td class="tg-0pky">Forward</td>
+    <td class="tg-0pky">0.22</td>
+    <td class="tg-0pky">WASP-76</td>
+    </tr>
+    <tr>
+    <td class="tg-y698">HAT-P-3</td>
+    <td class="tg-0pky">14260</td>
+    <td class="tg-0pky">completed</td>
+    <td class="tg-0pky">G141</td>
+    <td class="tg-0pky">0.933</td>
+    <td class="tg-0pky">0.9424</td>
+    <td class="tg-0pky">5</td>
+    <td class="tg-0pky">1470321713458</td>
+    <td class="tg-0pky">Forward</td>
+    <td class="tg-0pky">0.07</td>
+    <td class="tg-0pky">HAT-P-3</td>
+    </tr>
+    <tr>
+    <td class="tg-y698">HAT-P-3</td>
+    <td class="tg-0pky">14260</td>
+    <td class="tg-0pky">completed</td>
+    <td class="tg-0pky">G141</td>
+    <td class="tg-0pky">0.933</td>
+    <td class="tg-0pky">0.9424</td>
+    <td class="tg-0pky">5</td>
+    <td class="tg-0pky">1470321732279</td>
+    <td class="tg-0pky">Forward</td>
+    <td class="tg-0pky">0.07</td>
+    <td class="tg-0pky">HAT-P-3</td>
+    </tr>
+    <tr>
+    <td class="tg-y698">WASP-80</td>
+    <td class="tg-0pky">14260</td>
+    <td class="tg-0pky">completed</td>
+    <td class="tg-0pky">G141</td>
+    <td class="tg-0pky">0.9437</td>
+    <td class="tg-0pky">0.9576</td>
+    <td class="tg-0pky">4</td>
+    <td class="tg-0pky">1470321751834</td>
+    <td class="tg-0pky">Forward</td>
+    <td class="tg-0pky">0.22</td>
+    <td class="tg-0pky">WASP-80</td>
+    </tr>
+    <tr>
+    <td class="tg-y698">WASP-52</td>
+    <td class="tg-0pky">14260</td>
+    <td class="tg-0pky">completed</td>
+    <td class="tg-0pky">G141</td>
+    <td class="tg-0pky">0.9072</td>
+    <td class="tg-0pky">0.9237</td>
+    <td class="tg-0pky">4</td>
+    <td class="tg-0pky">1470321768771</td>
+    <td class="tg-0pky">Forward</td>
+    <td class="tg-0pky">0.035</td>
+    <td class="tg-0pky">WASP-52</td>
+    </tr>
+    <tr>
+    <td class="tg-y698">WASP-67</td>
+    <td class="tg-0pky">14260</td>
+    <td class="tg-0pky">completed</td>
+    <td class="tg-0pky">G141</td>
+    <td class="tg-0pky">0.9656</td>
+    <td class="tg-0pky">0.9703</td>
+    <td class="tg-0pky">4</td>
+    <td class="tg-0pky">1470321902888</td>
+    <td class="tg-0pky">Forward</td>
+    <td class="tg-0pky">0.037</td>
+    <td class="tg-0pky">WASP-67</td>
+    </tr>
+    <tr>
+    <td class="tg-y698">HD-149026</td>
+    <td class="tg-0pky">14260</td>
+    <td class="tg-0pky">completed</td>
+    <td class="tg-0pky">G141</td>
+    <td class="tg-0pky">0.9312</td>
+    <td class="tg-0pky">0.9433</td>
+    <td class="tg-0pky">5</td>
+    <td class="tg-0pky">1470321931554</td>
+    <td class="tg-0pky">Roundtrip</td>
+    <td class="tg-0pky">0.7</td>
+    <td class="tg-0pky">HD-149026</td>
+    </tr>
+    <tr>
+    <td class="tg-y698">HD-149026</td>
+    <td class="tg-0pky">14260</td>
+    <td class="tg-0pky">completed</td>
+    <td class="tg-0pky">G141</td>
+    <td class="tg-0pky">0.9312</td>
+    <td class="tg-0pky">0.9433</td>
+    <td class="tg-0pky">5</td>
+    <td class="tg-0pky">1470321963104</td>
+    <td class="tg-0pky">Roundtrip</td>
+    <td class="tg-0pky">0.7</td>
+    <td class="tg-0pky">HD-149026</td>
+    </tr>
+    <tr>
+    <td class="tg-y698">WASP-39</td>
+    <td class="tg-0pky">14260</td>
+    <td class="tg-0pky">completed</td>
+    <td class="tg-0pky">G141</td>
+    <td class="tg-0pky">0.9524</td>
+    <td class="tg-0pky">0.9581</td>
+    <td class="tg-0pky">5</td>
+    <td class="tg-0pky">1470321992452</td>
+    <td class="tg-0pky">Forward</td>
+    <td class="tg-0pky">0.035</td>
+    <td class="tg-0pky">WASP-39</td>
+    </tr>
+    <tr>
+    <td class="tg-y698">WASP-39</td>
+    <td class="tg-0pky">14260</td>
+    <td class="tg-0pky">completed</td>
+    <td class="tg-0pky">G141</td>
+    <td class="tg-0pky">0.9524</td>
+    <td class="tg-0pky">0.9581</td>
+    <td class="tg-0pky">5</td>
+    <td class="tg-0pky">1470322007612</td>
+    <td class="tg-0pky">Forward</td>
+    <td class="tg-0pky">0.035</td>
+    <td class="tg-0pky">WASP-39</td>
+    </tr>
+    <tr>
+    <td class="tg-y698">HAT-P-38</td>
+    <td class="tg-0pky">14260</td>
+    <td class="tg-0pky">completed</td>
+    <td class="tg-0pky">G141</td>
+    <td class="tg-0pky">0.9579</td>
+    <td class="tg-0pky">0.9639</td>
+    <td class="tg-0pky">5</td>
+    <td class="tg-0pky">1470322019924</td>
+    <td class="tg-0pky">Forward</td>
+    <td class="tg-0pky">0.026</td>
+    <td class="tg-0pky">HAT-P-38</td>
+    </tr>
+    <tr>
+    <td class="tg-y698">HAT-P-38</td>
+    <td class="tg-0pky">14260</td>
+    <td class="tg-0pky">completed</td>
+    <td class="tg-0pky">G141</td>
+    <td class="tg-0pky">0.9579</td>
+    <td class="tg-0pky">0.9639</td>
+    <td class="tg-0pky">5</td>
+    <td class="tg-0pky">1470322034277</td>
+    <td class="tg-0pky">Forward</td>
+    <td class="tg-0pky">0.026</td>
+    <td class="tg-0pky">HAT-P-38</td>
+    </tr>
+    <tr>
+    <td class="tg-y698">WASP-69</td>
+    <td class="tg-0pky">14260</td>
+    <td class="tg-0pky">completed</td>
+    <td class="tg-0pky">G141</td>
+    <td class="tg-0pky">0.9558</td>
+    <td class="tg-0pky">0.9664</td>
+    <td class="tg-0pky">4</td>
+    <td class="tg-0pky">1470321438826</td>
+    <td class="tg-0pky">Roundtrip</td>
+    <td class="tg-0pky">0.63</td>
+    <td class="tg-0pky">WASP-69</td>
+    </tr>
+    <tr>
+    <td class="tg-y698">WASP-29</td>
+    <td class="tg-0pky">14260</td>
+    <td class="tg-0pky">completed</td>
+    <td class="tg-0pky">G141</td>
+    <td class="tg-0pky">0.9501</td>
+    <td class="tg-0pky">0.9574</td>
+    <td class="tg-0pky">5</td>
+    <td class="tg-0pky">1470322048903</td>
+    <td class="tg-0pky">Forward</td>
+    <td class="tg-0pky">0.11</td>
+    <td class="tg-0pky">WASP-29</td>
+    </tr>
+    <tr>
+    <td class="tg-y698">HAT-P-12</td>
+    <td class="tg-0pky">14260</td>
+    <td class="tg-0pky">completed</td>
+    <td class="tg-0pky">G141</td>
+    <td class="tg-0pky">0.9383</td>
+    <td class="tg-0pky">0.949</td>
+    <td class="tg-0pky">5</td>
+    <td class="tg-0pky">1470322064753</td>
+    <td class="tg-0pky">Forward</td>
+    <td class="tg-0pky">0.03</td>
+    <td class="tg-0pky">HAT-P-12</td>
+    </tr>
+    <tr>
+    <td class="tg-y698">HAT-P-12</td>
+    <td class="tg-0pky">14260</td>
+    <td class="tg-0pky">completed</td>
+    <td class="tg-0pky">G141</td>
+    <td class="tg-0pky">0.9383</td>
+    <td class="tg-0pky">0.949</td>
+    <td class="tg-0pky">5</td>
+    <td class="tg-0pky">1470322083151</td>
+    <td class="tg-0pky">Forward</td>
+    <td class="tg-0pky">0.03</td>
+    <td class="tg-0pky">HAT-P-12</td>
+    </tr>
+    <tr>
+    <td class="tg-y698">HAT-P-18</td>
+    <td class="tg-0pky">14260</td>
+    <td class="tg-0pky">completed</td>
+    <td class="tg-0pky">G141</td>
+    <td class="tg-0pky">0.9648</td>
+    <td class="tg-0pky">0.9693</td>
+    <td class="tg-0pky">5</td>
+    <td class="tg-0pky">1470322099023</td>
+    <td class="tg-0pky">Forward</td>
+    <td class="tg-0pky">0.03</td>
+    <td class="tg-0pky">HAT-P-18</td>
+    </tr>
+    <tr>
+    <td class="tg-y698">HAT-P-18</td>
+    <td class="tg-0pky">14260</td>
+    <td class="tg-0pky">completed</td>
+    <td class="tg-0pky">G141</td>
+    <td class="tg-0pky">0.9648</td>
+    <td class="tg-0pky">0.9693</td>
+    <td class="tg-0pky">5</td>
+    <td class="tg-0pky">1470322116971</td>
+    <td class="tg-0pky">Forward</td>
+    <td class="tg-0pky">0.03</td>
+    <td class="tg-0pky">HAT-P-18</td>
+    </tr>
+    <tr>
+    <td class="tg-y698">HAT-P-26</td>
+    <td class="tg-0pky">14260</td>
+    <td class="tg-0pky">completed</td>
+    <td class="tg-0pky">G141</td>
+    <td class="tg-0pky">0.9548</td>
+    <td class="tg-0pky">0.9612</td>
+    <td class="tg-0pky">5</td>
+    <td class="tg-0pky">1470322131325</td>
+    <td class="tg-0pky">Forward</td>
+    <td class="tg-0pky">0.06</td>
+    <td class="tg-0pky">HAT-P-26</td>
+    </tr>
+    <tr>
+    <td class="tg-y698">HAT-P-26</td>
+    <td class="tg-0pky">14260</td>
+    <td class="tg-0pky">completed</td>
+    <td class="tg-0pky">G141</td>
+    <td class="tg-0pky">0.9548</td>
+    <td class="tg-0pky">0.9612</td>
+    <td class="tg-0pky">5</td>
+    <td class="tg-0pky">1470322144740</td>
+    <td class="tg-0pky">Forward</td>
+    <td class="tg-0pky">0.06</td>
+    <td class="tg-0pky">HAT-P-26</td>
+    </tr>
+    <tr>
+    <td class="tg-y698">HATS-7</td>
+    <td class="tg-0pky">14260</td>
+    <td class="tg-0pky">completed</td>
+    <td class="tg-0pky">G141</td>
+    <td class="tg-0pky">0.938</td>
+    <td class="tg-0pky">0.948</td>
+    <td class="tg-0pky">5</td>
+    <td class="tg-0pky">1470322151915</td>
+    <td class="tg-0pky">Forward</td>
+    <td class="tg-0pky">0.02</td>
+    <td class="tg-0pky">HATS-7</td>
+    </tr>
+    <tr>
+    <td class="tg-y698">HATS-7</td>
+    <td class="tg-0pky">14260</td>
+    <td class="tg-0pky">completed</td>
+    <td class="tg-0pky">G141</td>
+    <td class="tg-0pky">0.938</td>
+    <td class="tg-0pky">0.948</td>
+    <td class="tg-0pky">5</td>
+    <td class="tg-0pky">1470322157851</td>
+    <td class="tg-0pky">Forward</td>
+    <td class="tg-0pky">0.02</td>
+    <td class="tg-0pky">HATS-7</td>
+    </tr>
+    <tr>
+    <td class="tg-y698">WASP-31</td>
+    <td class="tg-0pky">12473</td>
+    <td class="tg-0pky">completed</td>
+    <td class="tg-0pky">G141</td>
+    <td class="tg-0pky">0.9512</td>
+    <td class="tg-0pky">0.9556</td>
+    <td class="tg-0pky">5</td>
+    <td class="tg-0pky">1470322157851</td>
+    <td class="tg-0pky">Forward</td>
+    <td class="tg-0pky">0.019</td>
+    <td class="tg-0pky">WASP-31</td>
+    </tr>
+    <tr>
+    <td class="tg-y698">HAT-1C</td>
+    <td class="tg-0pky">12473</td>
+    <td class="tg-0pky">completed</td>
+    <td class="tg-0pky">G141</td>
+    <td class="tg-0pky">0.95</td>
+    <td class="tg-0pky">0.954</td>
+    <td class="tg-0pky">5</td>
+    <td class="tg-0pky">1470322157851</td>
+    <td class="tg-0pky">Forward</td>
+    <td class="tg-0pky">0.15</td>
+    <td class="tg-0pky">HAT-1C</td>
+    </tr>
+    <tr>
+    <td class="tg-y698">HAT-12</td>
+    <td class="tg-0pky">12181</td>
+    <td class="tg-0pky">completed</td>
+    <td class="tg-0pky">G141</td>
+    <td class="tg-0pky">0.936</td>
+    <td class="tg-0pky">0.952</td>
+    <td class="tg-0pky">4</td>
+    <td class="tg-0pky">1470322157851</td>
+    <td class="tg-0pky">Forward</td>
+    <td class="tg-0pky">0.15</td>
+    <td class="tg-0pky">HAT-12</td>
+    </tr>
+    <tr>
+    <td class="tg-y698">WASP-12</td>
+    <td class="tg-0pky">12181</td>
+    <td class="tg-0pky">completed</td>
+    <td class="tg-0pky">G141</td>
+    <td class="tg-0pky">0.816</td>
+    <td class="tg-0pky">0.843</td>
+    <td class="tg-0pky">4</td>
+    <td class="tg-0pky">1470322157851</td>
+    <td class="tg-0pky">Forward</td>
+    <td class="tg-0pky">0.15</td>
+    <td class="tg-0pky">WASP-12</td>
+    </tr>
+    <tr>
+    <td class="tg-y698">TRES-2</td>
+    <td class="tg-0pky">12181</td>
+    <td class="tg-0pky">completed</td>
+    <td class="tg-0pky">G141</td>
+    <td class="tg-0pky">0.919</td>
+    <td class="tg-0pky">0.952</td>
+    <td class="tg-0pky">4</td>
+    <td class="tg-0pky">1470322157851</td>
+    <td class="tg-0pky">Forward</td>
+    <td class="tg-0pky">0.15</td>
+    <td class="tg-0pky">TRES-2</td>
+    </tr>
+    <tr>
+    <td class="tg-y698">WASP-18</td>
+    <td class="tg-0pky">12181</td>
+    <td class="tg-0pky">completed</td>
+    <td class="tg-0pky">G141</td>
+    <td class="tg-0pky">0.858</td>
+    <td class="tg-0pky">0.893</td>
+    <td class="tg-0pky">4</td>
+    <td class="tg-0pky">1470322157851</td>
+    <td class="tg-0pky">Forward</td>
+    <td class="tg-0pky">0.15</td>
+    <td class="tg-0pky">WASP-18</td>
+    </tr>
+    <tr>
+    <td class="tg-y698">WASP-17</td>
+    <td class="tg-0pky">12181</td>
+    <td class="tg-0pky">completed</td>
+    <td class="tg-0pky">G141</td>
+    <td class="tg-0pky">0.937</td>
+    <td class="tg-0pky">0.945</td>
+    <td class="tg-0pky">5</td>
+    <td class="tg-0pky">1470322157851</td>
+    <td class="tg-0pky">Forward</td>
+    <td class="tg-0pky">0.15</td>
+    <td class="tg-0pky">WASP-17</td>
+    </tr>
+    <tr>
+    <td class="tg-y698">XO-1</td>
+    <td class="tg-0pky">12181</td>
+    <td class="tg-0pky">completed</td>
+    <td class="tg-0pky">G141</td>
+    <td class="tg-0pky">0.95</td>
+    <td class="tg-0pky">0.955</td>
+    <td class="tg-0pky">5</td>
+    <td class="tg-0pky">1470322157851</td>
+    <td class="tg-0pky">Forward</td>
+    <td class="tg-0pky">0.05</td>
+    <td class="tg-0pky">XO-1</td>
+    </tr>
+    <tr>
+    <td class="tg-y698">TRES-4</td>
+    <td class="tg-0pky">12181</td>
+    <td class="tg-0pky">completed</td>
+    <td class="tg-0pky">G141</td>
+    <td class="tg-0pky">0.934</td>
+    <td class="tg-0pky">0.942</td>
+    <td class="tg-0pky">5</td>
+    <td class="tg-0pky">1470322157851</td>
+    <td class="tg-0pky">Forward</td>
+    <td class="tg-0pky">0.05</td>
+    <td class="tg-0pky">TRES-4</td>
+    </tr>
+    <tr>
+    <td class="tg-y698">HAT-13</td>
+    <td class="tg-0pky">12181</td>
+    <td class="tg-0pky">completed</td>
+    <td class="tg-0pky">G141</td>
+    <td class="tg-0pky">0.925</td>
+    <td class="tg-0pky">0.947</td>
+    <td class="tg-0pky">5</td>
+    <td class="tg-0pky">1470322157851</td>
+    <td class="tg-0pky">Forward</td>
+    <td class="tg-0pky">0.05</td>
+    <td class="tg-0pky">HAT-13</td>
+    </tr>
+    <tr>
+    <td class="tg-y698">HAT-7</td>
+    <td class="tg-0pky">12181</td>
+    <td class="tg-0pky">completed</td>
+    <td class="tg-0pky">G141</td>
+    <td class="tg-0pky">0.896</td>
+    <td class="tg-0pky">0.904</td>
+    <td class="tg-0pky">5</td>
+    <td class="tg-0pky">1470322157851</td>
+    <td class="tg-0pky">Forward</td>
+    <td class="tg-0pky">0.05</td>
+    <td class="tg-0pky">HAT-7</td>
+    </tr>
+    <tr>
+    <td class="tg-y698">HAT-7</td>
+    <td class="tg-0pky">12181</td>
+    <td class="tg-0pky">completed</td>
+    <td class="tg-0pky">G141</td>
+    <td class="tg-0pky">0.396</td>
+    <td class="tg-0pky">0.404</td>
+    <td class="tg-0pky">5</td>
+    <td class="tg-0pky">1470322157851</td>
+    <td class="tg-0pky">Forward</td>
+    <td class="tg-0pky">0.05</td>
+    <td class="tg-0pky">HAT-7</td>
+    </tr>
+    <tr>
+    <td class="tg-y698">HAT-7</td>
+    <td class="tg-0pky">12181</td>
+    <td class="tg-0pky">completed</td>
+    <td class="tg-0pky">G141</td>
+    <td class="tg-0pky">0.396</td>
+    <td class="tg-0pky">0.404</td>
+    <td class="tg-0pky">5</td>
+    <td class="tg-0pky">1470322157851</td>
+    <td class="tg-0pky">Forward</td>
+    <td class="tg-0pky">0.05</td>
+    <td class="tg-0pky">HAT-7</td>
+    </tr>
+    <tr>
+    <td class="tg-y698">HAT-7</td>
+    <td class="tg-0pky">12181</td>
+    <td class="tg-0pky">completed</td>
+    <td class="tg-0pky">G141</td>
+    <td class="tg-0pky">0.411</td>
+    <td class="tg-0pky">0.419</td>
+    <td class="tg-0pky">5</td>
+    <td class="tg-0pky">1470322157851</td>
+    <td class="tg-0pky">Forward</td>
+    <td class="tg-0pky">0.05</td>
+    <td class="tg-0pky">HAT-7</td>
+    </tr>
+    <tr>
+    <td class="tg-y698">WASP-4</td>
+    <td class="tg-0pky">12181</td>
+    <td class="tg-0pky">completed</td>
+    <td class="tg-0pky">G141</td>
+    <td class="tg-0pky">0.856</td>
+    <td class="tg-0pky">0.867</td>
+    <td class="tg-0pky">5</td>
+    <td class="tg-0pky">1470322157851</td>
+    <td class="tg-0pky">Forward</td>
+    <td class="tg-0pky">0.05</td>
+    <td class="tg-0pky">WASP-4</td>
+    </tr>
+    <tr>
+    <td class="tg-y698">WASP-19</td>
+    <td class="tg-0pky">12181</td>
+    <td class="tg-0pky">completed</td>
+    <td class="tg-0pky">G141</td>
+    <td class="tg-0pky">0.795</td>
+    <td class="tg-0pky">0.817</td>
+    <td class="tg-0pky">4</td>
+    <td class="tg-0pky">1470322157851</td>
+    <td class="tg-0pky">Forward</td>
+    <td class="tg-0pky">0.05</td>
+    <td class="tg-0pky">WASP-19</td>
+    </tr>
+    <tr>
+    <td class="tg-y698">TRES-3</td>
+    <td class="tg-0pky">12181</td>
+    <td class="tg-0pky">completed</td>
+    <td class="tg-0pky">G141</td>
+    <td class="tg-0pky">0.375</td>
+    <td class="tg-0pky">0.391</td>
+    <td class="tg-0pky">4</td>
+    <td class="tg-0pky">1470322157851</td>
+    <td class="tg-0pky">Forward</td>
+    <td class="tg-0pky">0.05</td>
+    <td class="tg-0pky">TRES-3</td>
+    </tr>
+    <tr>
+    <td class="tg-y698">COROT-1</td>
+    <td class="tg-0pky">12181</td>
+    <td class="tg-0pky">completed</td>
+    <td class="tg-0pky">G141</td>
+    <td class="tg-0pky">0.873</td>
+    <td class="tg-0pky">0.881</td>
+    <td class="tg-0pky">4</td>
+    <td class="tg-0pky">1470322157851</td>
+    <td class="tg-0pky">Forward</td>
+    <td class="tg-0pky">0.05</td>
+    <td class="tg-0pky">COROT-1</td>
+    </tr>
+    <tr>
+    <td class="tg-y698">WASP-19</td>
+    <td class="tg-0pky">12181</td>
+    <td class="tg-0pky">completed</td>
+    <td class="tg-0pky">G141</td>
+    <td class="tg-0pky">0.295</td>
+    <td class="tg-0pky">0.317</td>
+    <td class="tg-0pky">4</td>
+    <td class="tg-0pky">1470322157851</td>
+    <td class="tg-0pky">Forward</td>
+    <td class="tg-0pky">0.05</td>
+    <td class="tg-0pky">WASP-19</td>
+    </tr>
+    <tr>
+    <td class="tg-y698">COROT-1</td>
+    <td class="tg-0pky">12181</td>
+    <td class="tg-0pky">completed</td>
+    <td class="tg-0pky">G141</td>
+    <td class="tg-0pky">0.365</td>
+    <td class="tg-0pky">0.395</td>
+    <td class="tg-0pky">4</td>
+    <td class="tg-0pky">1470322157851</td>
+    <td class="tg-0pky">Forward</td>
+    <td class="tg-0pky">0.05</td>
+    <td class="tg-0pky">COROT-1</td>
+    </tr>
+    <tr>
+    <td class="tg-y698">COROT-1</td>
+    <td class="tg-0pky">12181</td>
+    <td class="tg-0pky">completed</td>
+    <td class="tg-0pky">G141</td>
+    <td class="tg-0pky">0.365</td>
+    <td class="tg-0pky">0.395</td>
+    <td class="tg-0pky">4</td>
+    <td class="tg-0pky">1470322157851</td>
+    <td class="tg-0pky">Forward</td>
+    <td class="tg-0pky">0.05</td>
+    <td class="tg-0pky">COROT-1</td>
+    </tr>
+    <tr>
+    <td class="tg-y698">COROT-1</td>
+    <td class="tg-0pky">12181</td>
+    <td class="tg-0pky">completed</td>
+    <td class="tg-0pky">G141</td>
+    <td class="tg-0pky">0.365</td>
+    <td class="tg-0pky">0.395</td>
+    <td class="tg-0pky">4</td>
+    <td class="tg-0pky">1470322157851</td>
+    <td class="tg-0pky">Forward</td>
+    <td class="tg-0pky">0.05</td>
+    <td class="tg-0pky">COROT-1</td>
+    </tr>
+    <tr>
+    <td class="tg-y698">COROT-2</td>
+    <td class="tg-0pky">12181</td>
+    <td class="tg-0pky">completed</td>
+    <td class="tg-0pky">G141</td>
+    <td class="tg-0pky">0.414</td>
+    <td class="tg-0pky">0.422</td>
+    <td class="tg-0pky">4</td>
+    <td class="tg-0pky">1470322157851</td>
+    <td class="tg-0pky">Forward</td>
+    <td class="tg-0pky">0.05</td>
+    <td class="tg-0pky">COROT-2</td>
+    </tr>
+    <tr>
+    <td class="tg-y698">COROT-2</td>
+    <td class="tg-0pky">12181</td>
+    <td class="tg-0pky">completed</td>
+    <td class="tg-0pky">G141</td>
+    <td class="tg-0pky">0.397</td>
+    <td class="tg-0pky">0.405</td>
+    <td class="tg-0pky">4</td>
+    <td class="tg-0pky">1470322157851</td>
+    <td class="tg-0pky">Forward</td>
+    <td class="tg-0pky">0.05</td>
+    <td class="tg-0pky">COROT-2</td>
+    </tr>
+    <tr>
+    <td class="tg-y698">COROT-2</td>
+    <td class="tg-0pky">12181</td>
+    <td class="tg-0pky">completed</td>
+    <td class="tg-0pky">G141</td>
+    <td class="tg-0pky">0.386</td>
+    <td class="tg-0pky">0.391</td>
+    <td class="tg-0pky">4</td>
+    <td class="tg-0pky">1470322157851</td>
+    <td class="tg-0pky">Forward</td>
+    <td class="tg-0pky">0.05</td>
+    <td class="tg-0pky">COROT-2</td>
+    </tr>
+    <tr>
+    <td class="tg-y698">WASP-4</td>
+    <td class="tg-0pky">12181</td>
+    <td class="tg-0pky">completed</td>
+    <td class="tg-0pky">G141</td>
+    <td class="tg-0pky">0.356</td>
+    <td class="tg-0pky">0.367</td>
+    <td class="tg-0pky">5</td>
+    <td class="tg-0pky">1470322157851</td>
+    <td class="tg-0pky">Forward</td>
+    <td class="tg-0pky">0.05</td>
+    <td class="tg-0pky">WASP-4</td>
+    </tr>
+    <tr>
+    <td class="tg-y698">HD209458</td>
+    <td class="tg-0pky">12181</td>
+    <td class="tg-0pky">scheduling</td>
+    <td class="tg-0pky">G141</td>
+    <td class="tg-0pky">0.941</td>
+    <td class="tg-0pky">0.948</td>
+    <td class="tg-0pky">5</td>
+    <td class="tg-0pky">1347301885579</td>
+    <td class="tg-0pky">Forward</td>
+    <td class="tg-0pky">0.9</td>
+    <td class="tg-0pky">HD209458</td>
+    </tr>
+    <tr>
+    <td class="tg-y698">HD189733</td>
+    <td class="tg-0pky">12181</td>
+    <td class="tg-0pky">completed</td>
+    <td class="tg-0pky">G141</td>
+    <td class="tg-0pky">0.922</td>
+    <td class="tg-0pky">0.932</td>
+    <td class="tg-0pky">4</td>
+    <td class="tg-0pky">1347301885579</td>
+    <td class="tg-0pky">Forward</td>
+    <td class="tg-0pky">0.99</td>
+    <td class="tg-0pky">HD189733</td>
+    </tr>
+</tbody>
+</table></div>
