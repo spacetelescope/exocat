@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="row">
+    <div class="span12">
+        <h3> Spatial Scan Monitor Summary </h3>
+        <p> Each truncated root will direct to the drift map and 2D light curve
+        results.</p>
+        <table id="myGoTable" class="sortable">
+            <tr class="header">
+                <th> Truncated Root </th>
+                <th> Proposal ID </th>
+                <th> Y Drift </th>
+                <th> X Drift </th>
+                <th> Median Absolute Deviation </th>
+                <th> Percent of Masked Pixels (for Optimal Spectral Extraction) </th>
+                <th> Percent of Masked Pixels (for Regular Spectral Extraction) </th>
+                <th> Scan Rate </th>
+                <th> Scan Type </th>
+                <th> Date </th>
+                <th> Julian Date </th>
+                <th> Target </th>
+            </tr>
+
+            {{ html_table_body|safe }} 
+        
+        </table>
+    </div>
+</div>
+
+{% endblock %}
