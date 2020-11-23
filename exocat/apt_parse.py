@@ -15,6 +15,7 @@ Notes
     update in the future. 
 """
 
+import xml.etree.ElementTree as ET
 import urllib.request 
 import urllib.error
 import urllib.parse
@@ -49,3 +50,72 @@ def fetch_apt(proposal_number = '15469'):
     f.close()
     
     return True
+
+def read_apt(proposal_number = '15469'):
+	"""Uses the APT file to read in values we want for the 
+	ExoCat table. 
+
+	Parameters
+	----------
+	proposal_number : string
+		The proposal number
+	"""
+	apt_file = proposal_number + '.apt'
+
+	#We are using XML to read in the file
+	tree = ET.parse(apt_file)
+	entire_file = tree.getroot()
+
+	# To find the values we gather data from several 
+	# places that I will list in different sections and then 
+	# we will combine them into a single table.
+	targets_info = entire_file.findall('Targets/FixedTarget')
+	observations_info = entire_file.findall('Observations/Observation')
+	visits_info = entire_file.findall('Visits/Visit')
+	exposures_info = entire_file.findall('Visits/Visit/ExposureGroup/Exposure')
+	spatial_scan_info = entire_file.findall('Visits/Visit/ExposureGroup/Exposure/SpatialScan')
+	phase_info = entire_file.findall('Visits/Visit/ExposureGroup/Exposure/Phase')
+
+	rate = []
+	direction = []
+	for element in spatial_scan_info:
+		rate.append(element.get('Rate'))
+		direction.append(element.get('Direction'))
+
+	phase_start = []
+	phase_end = []
+	for element in phase_info:
+	    phase_start.append(element.get('Start'))
+	    phase_end.append(element.get('End'))
+
+	target_name_exposure = []
+	spectral_element = []
+	label = []
+	for element in exposures_info:
+	    target_name_exposure.append(element.get('TargetName'))
+	    spectral_element.append(element.get('SpElement'))
+	    label.append(element.get('Label'))
+
+	status = []
+	number = []
+	for element in visits_info:
+	    status.append(element.get('Status'))
+	    number.append(element.get('Number'))
+
+	target_name_obs=[]
+	NumberOfOrbits = []
+	for element in observations:
+	    target_name_obs.append(element.get('TargetName'))
+	    NumberOfOrbits.append(element.get('NumberOfOrbits'))
+
+	target_name=[]
+	for element in targets_info:
+	    target_name.append(element.get('Name'))
+
+# Still need to gather alternate name from Targets/FixedTarget/AlternateNames
+# and Date from Visits/Visit/ToolData/ToolDataItem
+
+# Then need to build the proper table.
+
+
+
