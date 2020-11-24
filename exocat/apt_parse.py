@@ -14,11 +14,12 @@ Notes
     We currently have a list of proposals hardcoded - may need to 
     update in the future. 
 """
-
-import xml.etree.ElementTree as ET
+import numpy as np 
+import pandas as pd
 import urllib.request 
 import urllib.error
 import urllib.parse
+import xml.etree.ElementTree as ET
 
 def fetch_apt(proposal_number = '15469'):
 	"""Downloads and saves the APT version of a proposal. 
@@ -104,7 +105,7 @@ def read_apt(proposal_number = '15469'):
 
 	target_name_obs=[]
 	NumberOfOrbits = []
-	for element in observations:
+	for element in observations_info:
 	    target_name_obs.append(element.get('TargetName'))
 	    NumberOfOrbits.append(element.get('NumberOfOrbits'))
 
@@ -112,10 +113,32 @@ def read_apt(proposal_number = '15469'):
 	for element in targets_info:
 	    target_name.append(element.get('Name'))
 
+	# Create dataframes from the different sections: 
+	target_name_exposure = np.array(target_name_exposure)
+	spectral_element = np.array(spectral_element)
+	label = np.array(label)
+	exposures = zip(target_name_exposure, spectral_element,label)
+	exposure_df = pd.DataFrame((exposures), columns=['target_name_exposure','spectral_element','label'])
+
+	target_name_obs = np.array(target_name_obs)
+	NumberOfOrbits = np.array(NumberOfOrbits)
+	obs = zip(target_name_obs,NumberOfOrbits)
+	observations_df = pd.DataFrame((obs), columns=['target_name_obs', 'number_orbits'])
+
+	rate = np.array(rate)
+	direction = np.array(direction)
+	sp_scan = zip(rate, direction)
+	sp_scan_df = pd.DataFrame((sp_scan),columns=['rate','direction'])
+
+	phase_start = np.array(phase_start)
+	phase_end = np.array(phase_end)
+	phases = zip(phase_start, phase_end)
+	phase_df = pd.DataFrame((phases), columns=['phase_start', 'phase_end'])
+
+	target_name = np.array(target_name)
+	target_df = pd.DataFrame((target_name), columns = ['target_name'])
+
 # Still need to gather alternate name from Targets/FixedTarget/AlternateNames
 # and Date from Visits/Visit/ToolData/ToolDataItem
-
-# Then need to build the proper table.
-
 
 
