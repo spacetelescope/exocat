@@ -116,9 +116,12 @@ def read_apt(proposal_number = '15469'):
 	# Create dataframes from the different sections: 
 	target_name_exposure = np.array(target_name_exposure)
 	spectral_element = np.array(spectral_element)
-	label = np.array(label)
-	exposures = zip(target_name_exposure, spectral_element,label)
-	exposure_df = pd.DataFrame((exposures), columns=['target_name_exposure','spectral_element','label'])
+	exposures = zip(target_name_exposure, spectral_element)
+	exposure_df = pd.DataFrame((exposures), columns=['target_name_exposure','spectral_element'])
+
+	# Remove aquisition exposures:
+	indexNames = exposure_df[exposure_df['spectral_element'].str.contains('F')].index
+	exposure_df.drop(indexNames , inplace=True)
 
 	target_name_obs = np.array(target_name_obs)
 	NumberOfOrbits = np.array(NumberOfOrbits)
