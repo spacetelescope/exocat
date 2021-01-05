@@ -15,6 +15,7 @@ Notes
     update in the future. 
 """
 from datetime import datetime
+import logging
 import numpy as np 
 import pandas as pd
 import urllib.request 
@@ -101,10 +102,10 @@ def read_apt(proposal_number = '15469'):
 	spectral_element = []
 	label = []
 	for element in exposures_info:
-    	exp_num.append(element.get('Number'))
-    	target_name_exposure.append(element.get('TargetName'))
-    	spectral_element.append(element.get('SpElement'))
-    	label.append(element.get('Label'))
+	    exp_num.append(element.get('Number'))
+	    target_name_exposure.append(element.get('TargetName'))
+	    spectral_element.append(element.get('SpElement'))
+	    label.append(element.get('Label'))
 
 	status = []
 	number = []
@@ -195,3 +196,40 @@ def read_apt(proposal_number = '15469'):
 	final_table.to_csv(save_path)
 
 	return save_path
+
+def main(proposal_list):
+	"""The main function that will run a list of proposals. Also sets 
+	up and logs timing and information of each run. 
+
+
+	Parameters
+	----------
+	proposal_list : list
+		The proposal numbers
+
+	Returns
+	-------
+	"""
+	now = datetime.now()
+    dt_string = now.strftime("%d_%m_%Y_%H_%M_%S")
+    logging_name = 'apt_parsing_log_' + dt_string +'.txt'
+    logging.basicConfig(filename=logging_name, format='%(asctime)s - %(message)s', level=logging.INFO)
+    
+    for prop in proposal_list:
+        prop = str(prop) 
+        logging.info(prop)
+        
+        # Fetch the APT file and log the execution time
+        start_time = datetime.now() 
+        fetch_apt(proposal_number=prop)
+        time_elapsed = datetime.now() - start_time 
+        time_info = 'Time elapsed for download {}'.format(time_elapsed)
+        logging.info(time_info)
+        
+        # Parse the APT file and save the table and log the execution time
+        start_time2 = datetime.now() 
+        read_apt(proposal_number=prop)
+        time_elapsed2 = datetime.now() - start_time2 
+        time_info2 = 'Time elapsed for parsing {}'.format(time_elapsed2)
+        logging.info(time_info2)
+        
