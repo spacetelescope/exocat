@@ -15,6 +15,7 @@ Notes
     update in the future.
 """
 from datetime import datetime
+import astroquery.mast as mast
 import logging
 import numpy as np
 import pandas as pd
@@ -25,9 +26,14 @@ import xml.etree.ElementTree as ET
 
 def make_proposal_list():
     """ Generates a list of proposals dedicated to WFC3 IR exoplanet
-    observations whos files will be downloaded using `fetch_apt`
+    observations whose files will be downloaded using `fetch_apt`.
     """
-    
+
+    proposal_list = mast.Observations.query_criteria(project='HST',
+                                                     instrument_name='WFC3/IR')['proposal_id']
+
+    return list(proposal_list)
+
 
 def fetch_apt(proposal_number = '15469'):
     """Downloads and saves the APT version of a proposal.
