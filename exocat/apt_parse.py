@@ -258,3 +258,8 @@ def main():
         time_elapsed2 = datetime.now() - start_time2
         time_info2 = 'Time elapsed for parsing {}'.format(time_elapsed2)
         logging.info(time_info2)
+
+if __name__ == '__main__':
+
+    print('Executing APT parser')
+    main()
