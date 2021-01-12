@@ -12,7 +12,7 @@ ExoCat is currently hosted by STScI and can be found here: https://www.stsci.edu
 
 ## ExoCat Layout
 
-The Exoplanet Catalog provides the information found in the Phase 1/2 file of the designated proposal/program. All information provided by ExoCat is non-proprietary and available on the STScI website. The following are the 10 columns shown in the catalog, and their descriptions:
+The Exoplanet Catalog provides the information found in the Phase 1/2 file of the designated proposal/program. All information provided by ExoCat is non-proprietary and can be found publicly on the STScI website. The following are the 10 columns shown in the catalog, and their descriptions:
 1. `Target`	= The target name as shown in the APT proposal
 2. `Program ID`	= The proposal number, or program ID, as shown in the APT proposal/Phase 2
 3. `Status`	= The current status the proposal
