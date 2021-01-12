@@ -87,6 +87,19 @@ def read_apt(proposal_number = '15469'):
     tree = ET.parse(apt_file)
     entire_file = tree.getroot()
 
+    # We first verify if this program is an exoplanetary science program by
+    # searching for relevant keywords.
+    abstract_verify = entire_file.findall('ProposalInformation/Abstract')
+
+    for element in abstract_verify:
+        itertext = element.itertext()
+
+        for abstract in itertext:
+            if 'exoplanet' in abstract:
+                continue
+            else:
+                break
+
     # To find the values we gather data from several
     # places that I will list in different sections and then
     # we will combine them into a single table.
@@ -209,7 +222,7 @@ def read_apt(proposal_number = '15469'):
 
     return save_path
 
-def main(proposal_list):
+def main():
     """The main function that will run a list of proposals. Also sets
     up and logs timing and information of each run.
 
@@ -227,6 +240,7 @@ def main(proposal_list):
     logging_name = 'apt_parsing_log_' + dt_string +'.txt'
     logging.basicConfig(filename=logging_name, format='%(asctime)s - %(message)s', level=logging.INFO)
 
+    proposal_list = make_proposal_list()
     for prop in proposal_list:
         prop = str(prop)
         logging.info(prop)
