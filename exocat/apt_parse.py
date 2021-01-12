@@ -23,6 +23,12 @@ import urllib.error
 import urllib.parse
 import xml.etree.ElementTree as ET
 
+def make_proposal_list():
+    """ Generates a list of proposals dedicated to WFC3 IR exoplanet
+    observations whos files will be downloaded using `fetch_apt`
+    """
+    
+
 def fetch_apt(proposal_number = '15469'):
     """Downloads and saves the APT version of a proposal.
 
