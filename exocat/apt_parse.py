@@ -259,7 +259,8 @@ def main():
     logging_name = 'apt_parsing_log_' + dt_string +'.txt'
     logging.basicConfig(filename=logging_name, format='%(asctime)s - %(message)s', level=logging.INFO)
 
-    proposal_list = make_proposal_list()
+    #proposal_list = make_proposal_list()
+    proposal_list = ['14260']
     print(proposal_list)
     for prop in proposal_list:
         prop = str(prop)
