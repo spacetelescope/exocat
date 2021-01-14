@@ -2,9 +2,10 @@
 out the ExoCat table.
 
 
-Authors0
+Authors
 -------
     - Catherine Martlin, 2020
+    - Jennifer Medina, 2020
 Use
 ---
     This module is intended to be called by ``parse_apt.py``
@@ -65,6 +66,24 @@ def fetch_apt(proposal_number = '15469'):
     f.write(html)
     f.close()
 
+    return True
+
+def fetch_visit_status(proposal_number='15469'):
+    proposal_number = str(proposal_number)
+    webpage = ('https://www.stsci.edu/cgi-bin/get-visit-status?id={}&markupFormat=html&observatory=HST&pi=1'.format(proposal_number)) 
+    try:
+        response = urllib.request.urlopen(webpage)
+        html = response.read()
+    except urllib.error.HTTPError:
+        #logging.info('Error: Could not retrieve %s' % file)
+        return False
+    
+    filename = proposal_number + '_visit_status.html'
+    
+    f = open(filename, "wb")
+    f.write(html)
+    f.close()
+    
     return True
 
 def read_apt(proposal_number = '15469'):
