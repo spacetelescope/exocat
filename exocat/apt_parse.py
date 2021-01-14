@@ -60,30 +60,42 @@ def fetch_apt(proposal_number = '15469'):
         #logging.info('Error: Could not retrieve %s' % file)
         return False
 
-    filename = proposal_number + '.apt'
+    # Verify exoplanet
+    html = html_bytes.decode('utf-8')
 
-    f = open(filename, "wb")
-    f.write(html)
-    f.close()
+    abstract_start = html.find('<Abstract>')
+    abstract_end = html.find('</Abstract>')
 
-    return True
+    abstract = html[abstract_start:abstract_end]
+    if 'exoplanet' in abstract:
+
+        filename = proposal_number + '.apt'
+
+        f = open(filename, "wb")
+        f.write(html)
+        f.close()
+
+        return True
+
+    else:
+        return False
 
 def fetch_visit_status(proposal_number='15469'):
     proposal_number = str(proposal_number)
-    webpage = ('https://www.stsci.edu/cgi-bin/get-visit-status?id={}&markupFormat=html&observatory=HST&pi=1'.format(proposal_number)) 
+    webpage = ('https://www.stsci.edu/cgi-bin/get-visit-status?id={}&markupFormat=html&observatory=HST&pi=1'.format(proposal_number))
     try:
         response = urllib.request.urlopen(webpage)
         html = response.read()
     except urllib.error.HTTPError:
         #logging.info('Error: Could not retrieve %s' % file)
         return False
-    
+
     filename = proposal_number + '_visit_status.html'
-    
+
     f = open(filename, "wb")
     f.write(html)
     f.close()
-    
+
     return True
 
 def read_apt(proposal_number = '15469'):
@@ -106,19 +118,6 @@ def read_apt(proposal_number = '15469'):
     #We are using XML to read in the file
     tree = ET.parse(apt_file)
     entire_file = tree.getroot()
-
-    # We first verify if this program is an exoplanetary science program by
-    # searching for relevant keywords.
-    abstract_verify = entire_file.findall('ProposalInformation/Abstract')
-
-    for element in abstract_verify:
-        itertext = element.itertext()
-
-        for abstract in itertext:
-            if 'exoplanet' in abstract:
-                continue
-            else:
-                break
 
     # To find the values we gather data from several
     # places that I will list in different sections and then
