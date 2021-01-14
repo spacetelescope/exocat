@@ -31,6 +31,7 @@ def make_proposal_list():
 
     proposal_list = mast.Observations.query_criteria(project='HST',
                                                      instrument_name='WFC3/IR')['proposal_id']
+    proposal_list = np.unique(proposal_list)
 
     return list(proposal_list)
 
@@ -241,6 +242,7 @@ def main():
     logging.basicConfig(filename=logging_name, format='%(asctime)s - %(message)s', level=logging.INFO)
 
     proposal_list = make_proposal_list()
+    print(proposal_list)
     for prop in proposal_list:
         prop = str(prop)
         logging.info(prop)
@@ -254,7 +256,10 @@ def main():
 
         # Parse the APT file and save the table and log the execution time
         start_time2 = datetime.now()
-        read_apt(proposal_number=prop)
+        try:
+            read_apt(proposal_number=prop)
+        except ValueError:
+            continue
         time_elapsed2 = datetime.now() - start_time2
         time_info2 = 'Time elapsed for parsing {}'.format(time_elapsed2)
         logging.info(time_info2)
