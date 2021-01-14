@@ -267,20 +267,24 @@ def main():
 
         # Fetch the APT file and log the execution time
         start_time = datetime.now()
-        fetch_apt(proposal_number=prop)
-        time_elapsed = datetime.now() - start_time
-        time_info = 'Time elapsed for download {}'.format(time_elapsed)
-        logging.info(time_info)
+        output_bool = fetch_apt(proposal_number=prop)
 
-        # Parse the APT file and save the table and log the execution time
-        start_time2 = datetime.now()
-        try:
-            read_apt(proposal_number=prop)
-        except ValueError:
+        if output_bool == True:
+            time_elapsed = datetime.now() - start_time
+            time_info = 'Time elapsed for download {}'.format(time_elapsed)
+            logging.info(time_info)
+
+            # Parse the APT file and save the table and log the execution time
+            start_time2 = datetime.now()
+            try:
+                read_apt(proposal_number=prop)
+            except ValueError:
+                continue
+            time_elapsed2 = datetime.now() - start_time2
+            time_info2 = 'Time elapsed for parsing {}'.format(time_elapsed2)
+            logging.info(time_info2)
+        else:
             continue
-        time_elapsed2 = datetime.now() - start_time2
-        time_info2 = 'Time elapsed for parsing {}'.format(time_elapsed2)
-        logging.info(time_info2)
 
 if __name__ == '__main__':
 
