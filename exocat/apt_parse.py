@@ -55,7 +55,7 @@ def fetch_apt(proposal_number = '15469'):
     webpage = ('http://www.stsci.edu/hst/phase2-public/{}.apt'.format(proposal_number))
     try:
         response = urllib.request.urlopen(webpage)
-        html = response.read()
+        html_bytes = response.read()
     except urllib.error.HTTPError:
         #logging.info('Error: Could not retrieve %s' % file)
         return False
