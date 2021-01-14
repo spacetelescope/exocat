@@ -2,9 +2,10 @@
 out the ExoCat table.
 
 
-Authors0
+Authors
 -------
     - Catherine Martlin, 2020
+    - Jennifer Medina, 2020
 Use
 ---
     This module is intended to be called by ``parse_apt.py``
