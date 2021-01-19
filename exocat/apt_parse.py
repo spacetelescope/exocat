@@ -61,7 +61,7 @@ def fetch_apt(proposal_number = '15469'):
         return False
 
     # Verify exoplanet
-    html = html_bytes.decode('utf-8')
+    html = html_bytes.decode('latin-1')
 
     abstract_start = html.find('<Abstract>')
     abstract_end = html.find('</Abstract>')
