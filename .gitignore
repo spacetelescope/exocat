@@ -1,0 +1,11 @@
+# Ignoring `aptfiles/` - folder that contains the APT files of all the exoplane
+# related proposals
+exocat/aptfiles
+
+# Ignoring `csvfiles/` - folder that contains the CSV files which have all the 
+# table info 
+exocat/csvfiles
+
+# Ignoring `logfiles/` - folder that contains all the logs used for 
+# troubleshooting
+exocat/logfiles
