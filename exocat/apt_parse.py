@@ -51,6 +51,7 @@ def fetch_apt(proposal_number = '15469'):
     True if the html request succeeds
     False if the html request fails
     """
+    keywords = ['exoplanet', 'extra solar', 'mini neptune']
 
     webpage = ('http://www.stsci.edu/hst/phase2-public/{}.apt'.format(proposal_number))
     try:
@@ -63,22 +64,24 @@ def fetch_apt(proposal_number = '15469'):
     # Verify exoplanet
     html = html_bytes.decode('latin-1')
 
-    abstract_start = html.find('<Abstract>')
-    abstract_end = html.find('</Abstract>')
+    abstract_start, abstract_end = html.find('<Abstract>'), html.find('</Abstract>')
+    obsdesc_start, obsdesc_end = html.find('<ObservingDescription>'), html.find('</ObservingDescription>')
 
     abstract = html[abstract_start:abstract_end]
-    if 'exoplanet' in abstract:
+    #observing_description = html[obsdesc_start:obsdesc_end]
+    for keyword in keywords:
+        if (keyword in abstract.lower()):
 
-        filename = proposal_number + '.apt'
+            filename = proposal_number + '.apt'
+            print(proposal_number)
+            f = open(filename, "wb")
+            f.write(html_bytes)
+            f.close()
 
-        f = open(filename, "wb")
-        f.write(html_bytes)
-        f.close()
+            return True
 
-        return True
-
-    else:
-        return False
+        else:
+            return False
 
 def fetch_visit_status(proposal_number='15469'):
     proposal_number = str(proposal_number)
