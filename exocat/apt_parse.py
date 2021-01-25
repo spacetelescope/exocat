@@ -85,20 +85,21 @@ def fetch_apt(proposal_number = '15469'):
 
 def fetch_visit_status(proposal_number='15469'):
     proposal_number = str(proposal_number)
-    webpage = ('https://www.stsci.edu/cgi-bin/get-visit-status?id={}&markupFormat=html&observatory=HST&pi=1'.format(proposal_number))
+    
+    webpage = ('https://www.stsci.edu/cgi-bin/get-visit-status?id={}&markupFormat=xml&observatory=HST'.format(proposal_number)) 
     try:
         response = urllib.request.urlopen(webpage)
         html = response.read()
     except urllib.error.HTTPError:
         #logging.info('Error: Could not retrieve %s' % file)
         return False
-
-    filename = proposal_number + '_visit_status.html'
-
+    
+    filename = proposal_number + '_visit_status.xml'
+    
     f = open(filename, "wb")
     f.write(html)
     f.close()
-
+    
     return True
 
 def read_apt(proposal_number = '15469'):
@@ -243,6 +244,55 @@ def read_apt(proposal_number = '15469'):
     final_table.to_csv(save_path)
 
     return save_path
+
+def read_visit_status(proposal_number = '15469'):
+    """Uses the visit status file to read in the visit date/time
+
+    Parameters
+    ----------
+    proposal_number : string
+        The proposal number
+
+    Returns
+    -------
+
+    """
+    proposal_number = str(proposal_number)
+    filename = proposal_number + '_visit_status.xml'
+
+    #We are using XML to read in the file
+    tree = ET.parse(filename)
+    entire_file = tree.getroot()
+    print(entire_file)
+    
+    visits = entire_file.findall('visit')
+    statuses = entire_file.findall('visit/status')
+    targets = entire_file.findall('visit/target')
+    startTimes = entire_file.findall('visit/startTime')
+    endTimes = entire_file.findall('visit/endTime')
+    
+    visit_list = []
+    for visit in visits: 
+        visit_list.append(visit.get('id'))
+
+    status_list = []
+    for elem in statuses: 
+        status_list.append(elem.text)
+
+    targets_list = []
+    for elem in targets: 
+        targets_list.append(elem.text)
+
+    startTimes_list = []
+    for elem in startTimes: 
+        startTimes_list.append(elem.text)
+
+    endTimes_list = []
+    for elem in endTimes: 
+        endTimes_list.append(elem.text)
+        
+    all_info = list(zip(visit_list, status_list, targets_list, startTimes_list, endTimes_list))
+
 
 def main():
     """The main function that will run a list of proposals. Also sets
