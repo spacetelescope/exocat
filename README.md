@@ -25,4 +25,4 @@ The Exoplanet Catalog provides the information found in the Phase 1/2 file of th
 10. `Alt. Name` = Alternative name for the target if given. Otherwise, this column is the same as the first
 
 ## Contact
-If you have any questions/comments/suggestions on ExoCat, please click the `Issue` tab above to submit a ticket or contact us through the <a href="https://www.stsci.edu/contents/news/wfc3-stans/wfc3-stan-issue-34-january">HST Help Desk</a>, and we will respond as soon as possible. 
+If you have any questions/comments/suggestions on ExoCat, please click the `Issues` tab at the top of this page to submit a ticket or contact us through the <a href="https://www.stsci.edu/contents/news/wfc3-stans/wfc3-stan-issue-34-january">HST Help Desk</a>, and we will respond as soon as possible. 
