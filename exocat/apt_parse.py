@@ -127,6 +127,8 @@ def read_apt(proposal_number = '15469'):
     # places that I will list in different sections and then
     # we will combine them into a single table.
     targets_info = entire_file.findall('Targets/FixedTarget')
+    RA_info = entire_file.findall('Targets/FixedTarget/EquatorialPosition/RA')
+    DEC_info = entire_file.findall('Targets/FixedTarget/EquatorialPosition/DEC')
     observations_info = entire_file.findall('Observations/Observation')
     visits_info = entire_file.findall('Visits/Visit')
     exposures_info = entire_file.findall('Visits/Visit/ExposureGroup/Exposure')
@@ -140,6 +142,22 @@ def read_apt(proposal_number = '15469'):
     if not phase_info:
         warning = apt_file + " has no phase info."
         logging.info(warning)
+
+    RA = []
+    for element in RA_info:
+        hrs = (element.get('Hrs'))
+        mins = (element.get('Mins'))
+        secs = (element.get('Secs'))
+        ra = str(hrs) + " " + str(mins) + " " + str(secs) 
+        RA.append(ra)
+
+    DEC = []
+    for element in DEC_info:
+        deg = (element.get('Degrees'))
+        arcmin = (element.get('Arcmin'))
+        arcsec = (element.get('Arcsec'))
+        dec = str(deg) + " " + str(arcmin) + " " + str(arcsec) 
+        DEC.append(dec)
 
     rate = []
     direction = []
@@ -212,6 +230,10 @@ def read_apt(proposal_number = '15469'):
     label = np.array(label)
     visits_info_df = pd.DataFrame(list(zip(status, number, label)), columns = ['status', 'visit_number','label'])
     
+    RA = np.array(RA)
+    DEC = np.array(DEC)
+    coord_info_df = pd.DataFrame(list(zip(RA, DEC)), columns = ['RA', 'Dec'])
+
     # Add phase and label to visit info: 
     visits_info_df_label = visits_info_df.drop_duplicates(subset = ["label"])
     visits_info_df_label = visits_info_df_label.reset_index()
@@ -240,6 +262,10 @@ def read_apt(proposal_number = '15469'):
         obs_and_visits_df = pd.concat([observations_df, visits_info_df], axis=1)
         obs_and_visits_df = obs_and_visits_df.drop(['target_name_obs'], axis=1)
         obs_and_visits_df = obs_and_visits_df.drop(['status'], axis=1)
+
+    # Add RA/Dec to exposure table: 
+    exposure_df['RA'] = coord_info_df['RA']
+    exposure_df['Dec'] = coord_info_df['Dec']
 
     #combine tables:
     combine1 = pd.concat([exposure_df,sp_scan_df], axis=1)
