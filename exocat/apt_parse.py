@@ -264,8 +264,10 @@ def read_apt(proposal_number = '15469'):
         obs_and_visits_df = obs_and_visits_df.drop(['status'], axis=1)
 
     # Add RA/Dec to exposure table: 
-    exposure_df['RA'] = coord_info_df['RA']
-    exposure_df['Dec'] = coord_info_df['Dec']
+    observations_df['RA'] = coord_info_df['RA']
+    observations_df['Dec'] = coord_info_df['Dec']
+    exposure_df = pd.merge(observations_df[['target_name_obs','RA','Dec']], exposure_df, left_on='target_name_obs', right_on='target_name_exposure')
+    exposure_df = exposure_df.drop(['target_name_obs'], axis=1)
 
     #combine tables:
     combine1 = pd.concat([exposure_df,sp_scan_df], axis=1)
