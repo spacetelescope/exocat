@@ -248,6 +248,7 @@ def read_apt(proposal_number = '15469'):
     reduce1 = reduce1.drop(['index'], axis=1)
     combine2 = pd.concat([reduce1, visits_info_df], axis=1)
     combine2 = combine2.drop(['exposure_number'], axis=1)
+    combine2 = combine2[combine2['spectral_element'].notna()]
 
 
     #If there are missing target_name we use the visit_label to name it: 
