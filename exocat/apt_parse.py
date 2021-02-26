@@ -133,6 +133,14 @@ def read_apt(proposal_number = '15469'):
     spatial_scan_info = entire_file.findall('Visits/Visit/ExposureGroup/Exposure/SpatialScan')
     phase_info = entire_file.findall('Visits/Visit/ExposureGroup/Exposure/Phase')
 
+    if not spatial_scan_info:
+        warning = apt_file + " has no spatial scan info."
+        logging.info(warning)
+
+    if not phase_info:
+        warning = apt_file + " has no phase info."
+        logging.info(warning)
+
     rate = []
     direction = []
     for element in spatial_scan_info:
