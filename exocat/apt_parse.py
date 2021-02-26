@@ -177,9 +177,8 @@ def read_apt(proposal_number = '15469'):
     exp_num = np.array(exp_num)
     exposure_df = pd.DataFrame(list(zip(exp_num, target_name_exposure, spectral_element)), columns=['exposure_number','target_name_exposure','spectral_element'])
 
-    # Remove aquisition exposures:
-    indexNames = exposure_df[exposure_df['spectral_element'].str.contains('F')].index
-    exposure_df.drop(indexNames , inplace=True)
+    # Remove aquisition/other instrument exposures:
+    exposure_df = exposure_df[exposure_df['spectral_element'].str.contains('G141|G102')]
     exposure_df = exposure_df.reset_index()
     exposure_df = exposure_df.drop(['index'], axis=1)
 
