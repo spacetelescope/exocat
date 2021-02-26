@@ -165,9 +165,11 @@ def read_apt(proposal_number = '15469'):
 
     status = []
     number = []
+    label = []
     for element in visits_info:
         status.append(element.get('Status'))
         number.append(element.get('Number'))
+        label.append(element.get('Label'))
 
     target_name_obs=[]
     NumberOfOrbits = []
@@ -207,7 +209,22 @@ def read_apt(proposal_number = '15469'):
 
     status = np.array(status)
     number = np.array(number)
-    visits_info_df = pd.DataFrame(list(zip(status, number)), columns = ['status', 'visit_number'])
+    label = np.array(label)
+    visits_info_df = pd.DataFrame(list(zip(status, number, label)), columns = ['status', 'visit_number','label'])
+    
+    # Add phase and label to visit info: 
+    visits_info_df_label = visits_info_df.drop_duplicates(subset = ["label"])
+    visits_info_df_label = visits_info_df_label.reset_index()
+    phase_df['label'] = visits_info_df_label['label']
+    
+    visits_info_df['phase_start'] = 0
+    visits_info_df['phase_end'] = 0
+
+    for x in range(len(visits_info_df['label'])):
+        for y in range(len(phase_df['label'])):
+            if visits_info_df['label'][x] == phase_df['label'][y]:
+                visits_info_df['phase_start'][x] = phase_df['phase_start'][y]
+                visits_info_df['phase_end'][x] = phase_df['phase_end'][y]
 
     #fix table with orbit numbers:
     if len(visits_info_df.index) != len(observations_df.index):
@@ -229,8 +246,17 @@ def read_apt(proposal_number = '15469'):
     reduce1 = combine1[combine1["exposure_number"] == '2']
     reduce1 = reduce1.reset_index()
     reduce1 = reduce1.drop(['index'], axis=1)
-    combine2 = pd.concat([reduce1, phase_df, visits_info_df], axis=1)
+    combine2 = pd.concat([reduce1, visits_info_df], axis=1)
     combine2 = combine2.drop(['exposure_number'], axis=1)
+
+
+    #If there are missing target_name we use the visit_label to name it: 
+    if combine2['target_name_exposure'].isnull().values.any() == True: 
+        for x in range(len(combine2['target_name_exposure'])):
+            if pd.isna(combine2['target_name_exposure'][x]):
+                visit_num = combine2['visit_number'][x]
+                index = visits_info_df[visits_info_df['visit_number']==visit_num].index.values
+                combine2['target_name_exposure'][x] = visits_info_df['label'][index[0]]
 
     #add column with proposal number:
     total_entries = len(combine2.index)
