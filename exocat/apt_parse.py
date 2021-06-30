@@ -85,21 +85,21 @@ def fetch_apt(proposal_number = '15469'):
 
 def fetch_visit_status(proposal_number='15469'):
     proposal_number = str(proposal_number)
-    
-    webpage = ('https://www.stsci.edu/cgi-bin/get-visit-status?id={}&markupFormat=xml&observatory=HST'.format(proposal_number)) 
+
+    webpage = ('https://www.stsci.edu/cgi-bin/get-visit-status?id={}&markupFormat=xml&observatory=HST'.format(proposal_number))
     try:
         response = urllib.request.urlopen(webpage)
         html = response.read()
     except urllib.error.HTTPError:
         #logging.info('Error: Could not retrieve %s' % file)
         return False
-    
+
     filename = proposal_number + '_visit_status.xml'
-    
+
     f = open(filename, "wb")
     f.write(html)
     f.close()
-    
+
     return True
 
 def read_apt(proposal_number = '15469'):
@@ -148,7 +148,7 @@ def read_apt(proposal_number = '15469'):
         hrs = (element.get('Hrs'))
         mins = (element.get('Mins'))
         secs = (element.get('Secs'))
-        ra = str(hrs) + " " + str(mins) + " " + str(secs) 
+        ra = str(hrs) + " " + str(mins) + " " + str(secs)
         RA.append(ra)
 
     DEC = []
@@ -156,7 +156,7 @@ def read_apt(proposal_number = '15469'):
         deg = (element.get('Degrees'))
         arcmin = (element.get('Arcmin'))
         arcsec = (element.get('Arcsec'))
-        dec = str(deg) + " " + str(arcmin) + " " + str(arcsec) 
+        dec = str(deg) + " " + str(arcmin) + " " + str(arcsec)
         DEC.append(dec)
 
     rate = []
@@ -229,16 +229,16 @@ def read_apt(proposal_number = '15469'):
     number = np.array(number)
     label = np.array(label)
     visits_info_df = pd.DataFrame(list(zip(status, number, label)), columns = ['status', 'visit_number','label'])
-    
+
     RA = np.array(RA)
     DEC = np.array(DEC)
     coord_info_df = pd.DataFrame(list(zip(RA, DEC)), columns = ['RA', 'Dec'])
 
-    # Add phase and label to visit info: 
+    # Add phase and label to visit info:
     visits_info_df_label = visits_info_df.drop_duplicates(subset = ["label"])
     visits_info_df_label = visits_info_df_label.reset_index()
     phase_df['label'] = visits_info_df_label['label']
-    
+
     visits_info_df['phase_start'] = 0
     visits_info_df['phase_end'] = 0
 
@@ -263,12 +263,12 @@ def read_apt(proposal_number = '15469'):
         obs_and_visits_df = obs_and_visits_df.drop(['target_name_obs'], axis=1)
         obs_and_visits_df = obs_and_visits_df.drop(['status'], axis=1)
 
-    # Add RA/Dec to exposure table: 
-    # Add RA/Dec to exposure table: 
+    # Add RA/Dec to exposure table:
+    # Add RA/Dec to exposure table:
     target_df['RA'] = coord_info_df['RA']
     target_df['Dec'] = coord_info_df['Dec']
     exposure_df = pd.merge(target_df, exposure_df, left_on='target_name', right_on='target_name_exposure')
-    
+
     #combine tables:
     combine1 = pd.concat([exposure_df,sp_scan_df], axis=1)
     reduce1 = combine1[combine1["exposure_number"] == '2']
@@ -279,8 +279,8 @@ def read_apt(proposal_number = '15469'):
     combine2 = combine2[combine2['spectral_element'].notna()]
 
 
-    #If there are missing target_name we use the visit_label to name it: 
-    if combine2['target_name_exposure'].isnull().values.any() == True: 
+    #If there are missing target_name we use the visit_label to name it:
+    if combine2['target_name_exposure'].isnull().values.any() == True:
         for x in range(len(combine2['target_name_exposure'])):
             if pd.isna(combine2['target_name_exposure'][x]):
                 visit_num = combine2['visit_number'][x]
@@ -326,33 +326,33 @@ def read_visit_status(proposal_number = '15469'):
     tree = ET.parse(filename)
     entire_file = tree.getroot()
     print(entire_file)
-    
+
     visits = entire_file.findall('visit')
     statuses = entire_file.findall('visit/status')
     targets = entire_file.findall('visit/target')
     startTimes = entire_file.findall('visit/startTime')
     endTimes = entire_file.findall('visit/endTime')
-    
+
     visit_list = []
-    for visit in visits: 
+    for visit in visits:
         visit_list.append(visit.get('id'))
 
     status_list = []
-    for elem in statuses: 
+    for elem in statuses:
         status_list.append(elem.text)
 
     targets_list = []
-    for elem in targets: 
+    for elem in targets:
         targets_list.append(elem.text)
 
     startTimes_list = []
-    for elem in startTimes: 
+    for elem in startTimes:
         startTimes_list.append(elem.text)
 
     endTimes_list = []
-    for elem in endTimes: 
+    for elem in endTimes:
         endTimes_list.append(elem.text)
-        
+
     all_info = list(zip(visit_list, status_list, targets_list, startTimes_list, endTimes_list))
 
 
